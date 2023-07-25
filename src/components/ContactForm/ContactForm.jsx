@@ -1,34 +1,39 @@
 import React from "react"
 import { FormTitle,FormContact,FormButton} from "./ContactForm.Styled"
-export class ContactForm extends React.Component {
+import { useState } from "react";
+export const ContactForm = ({addContacts}) => {
   // ({number,name,addContacts,addFormNameTel}) =>
-  state = {
-    name: '',
-    number: '',
-  }
-
-  addFormNameTel = e => {
-    this.setState({ [e.target.name]: e.target.value });
+  // state = {
+  //   name: '',
+  //   number: '',
+  // }
+  const [name,setName] = useState('')
+  const [number,setNumber] = useState('')
+ const addFormNameTel = e => {
+    if(e.target.name==='name') setName(e.target.value)
+    else if(e.target.name==='number') setNumber(e.target.value)
+    //this.setState({ [e.target.name]: e.target.value });
   };
 
-  submitForm = e => {
+const  submitForm = e => {
     e.preventDefault()
-    this.props.onSubmit({ name: this.state.name, number: this.state.number });
-    this.reset();
+    addContacts({ name: name, number:number });
+    reset();
   }
-  reset = () => {
-    this.setState({ number: '', name: '' });
+ const reset = () => {
+    setName('')
+    setNumber('')
   };
-  render(){ 
-    const {name,number} = this.state
+  // render(){ 
+  //   const {name,number} = this.state
   return ( 
         <>
         <FormTitle>Phone Book</FormTitle>
-        <FormContact onSubmit={this.submitForm} >
+        <FormContact onSubmit={submitForm} >
           <label>
             Name
             <input
-              onChange={this.addFormNameTel}
+              onChange={addFormNameTel}
               type="text"
               name="name"
               value={name}
@@ -40,7 +45,7 @@ export class ContactForm extends React.Component {
           <label>
           Tel:
             <input
-              onChange={this.addFormNameTel}
+              onChange={addFormNameTel}
               type="tel"
               name="number"
               value={number}
@@ -53,4 +58,4 @@ export class ContactForm extends React.Component {
         </FormContact>
         </>
     )
-}}
+}
